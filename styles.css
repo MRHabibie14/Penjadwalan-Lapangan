@@ -1,0 +1,126 @@
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 1em;
+            text-decoration: none;
+        }
+        main {
+            padding: 2em;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: center;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-media a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .social-media a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2em;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+        input, select, button {
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2em;
+        }
+        th, td {
+            padding: 1em;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        timeSlots {
+            #timeSlots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .timeSlot {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .timeSlot.selected {
+            background-color: #0056b3;
+        }
+        #scheduleTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #scheduleTable th, #scheduleTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #scheduleTable th {
+            background-color: #f2f2f2;
+        }

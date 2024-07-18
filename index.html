@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penyewaan Lapangan Futsal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 1em;
+            text-decoration: none;
+        }
+        main {
+            padding: 2em;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2em;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+        input, select, button {
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2em;
+        }
+        th, td {
+            padding: 1em;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        timeSlots {
+            #timeSlots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .timeSlot {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .timeSlot.selected {
+            background-color: #0056b3;
+        }
+        #scheduleTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #scheduleTable th, #scheduleTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #scheduleTable th {
+            background-color: #f2f2f2;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-media a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .social-media a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Penyewaan Lapangan Futsal</h1>
+    </header>
+    <nav id="nav">
+        <a href="#" id="loginLink">Login</a>
+        <a href="#" id="registerLink">Register</a>
+        <a href="#" id="contactLink">About</a>
+        <a href="#" id="logoutLink" style="display:none;">Logout</a>
+        <a href="welcome.html" id="welcome.html">Keluar</a>
+    </nav>
+    <main>
+        <div class="container" id="loginForm" style="display:block;">
+            <h2>Login</h2>
+            <form id="login">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div class="container" id="registerForm" style="display:none;">
+            <h2>Registrasi</h2>
+             <form id="registerForm" method="POST" action="register.php">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Register</button>
+            </form>
+            <p>Sudah punya akun? <a href="#" id="loginLink">Login di sini</a></p>
+        </div>
+            <div class="container" id="contactAdminForm" style="display:none;">
+            <h2>Kontak Admin</h2>
+            <form id="contactForm">
+            <p>Selamat datang di Sewa Lapangan Futsal, tempat terbaik untuk Anda bermain futsal dengan fasilitas lengkap dan berkualitas tinggi. Kami menyediakan lapangan futsal yang dirancang khusus untuk memberikan pengalaman bermain yang optimal bagi semua penggemar futsal, baik untuk latihan, pertandingan persahabatan, maupun turnamen.</p>
+            <h3>Fasilitas yang Kami Tawarkan:</h3>
+            <p>- Lapangan Berkualitas Tinggi: Lapangan kami dilengkapi dengan permukaan yang aman dan nyaman, dirancang khusus untuk permainan futsal.</p>
+            <p>-Pencahayaan yang Baik: Sistem pencahayaan modern yang memungkinkan permainan dilakukan dengan nyaman, bahkan di malam hari.</p>
+            <p>-Ruang Ganti dan Kamar Mandi: Fasilitas ruang ganti dan kamar mandi yang bersih dan nyaman untuk kenyamanan Anda sebelum dan sesudah bermain.</p>
+            <p>-Area Istirahat: Area istirahat yang dilengkapi dengan tempat duduk dan meja untuk bersantai sambil menonton pertandingan atau menunggu giliran bermain.</p>
+            <p>-Kantin: Menyediakan berbagai makanan dan minuman ringan untuk memenuhi kebutuhan energi Anda.</p>
+            <p>-Parkir Luas: Area parkir yang luas dan aman untuk kendaraan Anda.</p>
+
+            <h2>Kenapa Memilih Kami?</h2>
+            <p>-Lokasi Strategis: Berada di lokasi yang mudah diakses, sehingga Anda tidak perlu repot mencari tempat bermain.</p>
+            <p>-Harga Terjangkau: Menawarkan harga sewa yang kompetitif dan paket menarik untuk penyewaan jangka panjang atau turnamen.</p>
+            <p>-Pelayanan Ramah: Tim kami siap melayani Anda dengan ramah dan profesional untuk memastikan pengalaman bermain yang menyenangkan.</p>
+            <p>-Keamanan Terjamin: Menyediakan lingkungan yang aman dan nyaman bagi semua pengunjung dan pemain.</p>
+            </form>
+    </div>
+        <div class="container" id="userDashboard" style="display:none;">
+            <h2>Formulir Pemesanan</h2>
+            <form id="bookingForm">
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="phone">Nomor HP:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="date">Tanggal:</label>
+                <input type="date" id="date" name="date" required>
+                <label>Waktu:</label>
+                <div id="timeSlots">
+                    <button type="button" class="timeSlot" data-time="08:00-09:00">08:00 - 09:00</button>
+                    <button type="button" class="timeSlot" data-time="09:00-10:00">09:00 - 10:00</button>
+                    <button type="button" class="timeSlot" data-time="10:00-11:00">10:00 - 11:00</button>
+                    <button type="button" class="timeSlot" data-time="11:00-12:00">11:00 - 12:00</button>
+                    <button type="button" class="timeSlot" data-time="12:00-13:00">12:00 - 13:00</button>
+                    <button type="button" class="timeSlot" data-time="13:00-14:00">13:00 - 14:00</button>
+                    <button type="button" class="timeSlot" data-time="14:00-15:00">14:00 - 15:00</button>
+                    <button type="button" class="timeSlot" data-time="15:00-16:00">15:00 - 16:00</button>
+                    <button type="button" class="timeSlot" data-time="16:00-17:00">16:00 - 17:00</button>
+                    <button type="button" class="timeSlot" data-time="17:00-18:00">17:00 - 18:00</button>
+                    <button type="button" class="timeSlot" data-time="18:00-19:00">18:00 - 19:00</button>
+                    <button type="button" class="timeSlot" data-time="19:00-20:00">19:00 - 20:00</button>
+                    <button type="button" class="timeSlot" data-time="20:00-21:00">20:00 - 21:00</button>
+                    <button type="button" class="timeSlot" data-time="21:00-22:00">21:00 - 22:00</button>
+                    <button type="button" class="timeSlot" data-time="22:00-23:00">22:00 - 23:00</button>
+                    <button type="button" class="timeSlot" data-time="23:00-24:00">23:00 - 24:00</button>
+                    <!-- Tambahkan lebih banyak slot waktu sesuai kebutuhan -->
+                </div>
+                <input type="hidden" id="time" name="time" required>
+                <button type="submit">Pesan Sekarang</button>
+            </form>
+             <div id="confirmationMessage" style="display:none;">
+                <h3>Terima kasih telah melakukan pemesanan!</h3>
+                <p>Silakan konfirmasi pembayaran Anda melalui WhatsApp:</p>
+                <a id="whatsappLink" href="#" target="_blank">Konfirmasi Pembayaran</a>
+            </div>
+            <h2>Jadwal Penyewaan</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama/Tim</th>
+                        <th>Tanggal</th>
+                        <th>Waktu</th>
+                        <th>Nomor WA</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleTable">
+                    <!-- Data penyewaan akan ditampilkan di sini -->
+                </tbody>
+            </table>
+            </header>
+        <main>
+        <footer>
+            <div class="social-media">
+                <a href="https://www.facebook.com/yourpage" target="_blank">Facebook</a>
+                <a href="https://www.twitter.com/yourpage" target="_blank">Twitter</a>
+                <a href="https://www.instagram.com/yourpage" target="_blank">Instagram</a>
+                <a href="https://wa.me/yourwhatsappnumber" target="_blank">WhatsApp</a>
+            </div>
+        </footer>
+        </div>
+            <div class="container" id="adminDashboard" style="display:none;">
+            <h2>Data Penyewaan</h2>
+        <form id="filterForm">
+            <label for="period">Pilih Periode:</label>
+            <select id="period" name="period">
+                <option value="monthly">Bulanan</option>
+                <option value="yearly">Tahunan</option>
+            </select>
+            <div id="monthYearFields">
+                <label for="month">Bulan:</label>
+                <select id="month" name="month">
+                    <!-- Options untuk bulan -->
+                    <option value="1">Januari</option>
+                    <option value="2">Februari</option>
+                    <option value="3">Maret</option>
+                    <option value="4">April</option>
+                    <option value="5">Mei</option>
+                    <option value="6">Juni</option>
+                    <option value="7">Juli</option>
+                    <option value="8">Agustus</option>
+                    <option value="9">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
+                <label for="year">Tahun:</label>
+                <input type="number" id="year" name="year" value="2024">
+            </div>
+            <button type="submit">Filter</button>
+        </form>
+        <table>
+            <h2>Jadwal Masuk</h2>
+            <thead>
+                <tr>
+                    <th>Nama/Tim</th>
+                    <th>Tanggal</th>
+                    <th>Waktu</th>
+                    <th>Nomor HP</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+                <tbody id="adminContactTable">
+                    <!-- Data kontak akan ditampilkan di sini -->
+                </tbody>
+            </table>
+             <h2>Riwayat Booking Semua User</h2>
+            <table id="adminBookingTable" class="display" style="width:100%">
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    <script>
+$(document).ready(function() {
+    function loadBookingData(tableId, role) {
+        $.ajax({
+            url: 'fetch_bookings.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data); // Logging data
+                var bookingTable = $(tableId).DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Export to Excel',
+                            className: 'btn btn-success'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'Export to PDF',
+                            className: 'btn btn-danger'
+                        }
+                    ],
+                    data: data,
+                    columns: [
+                        { data: 'id' },
+                        { data: 'name' },
+                        { data: 'date' },
+                        { data: 'time' },
+                        { data: 'created_at' },
+                        { data: 'phone' },
+                        { data: 'status' }
+                    ]
+                });
+
+                if (role === 'admin') {
+                    $('#adminContactTable').show();
+                } else if (role === 'user') {
+                    $('#userDashboard').show();
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error(textStatus, errorThrown); // Logging error
+            }
+        });
+    }
+
+    // Simulasi login untuk menampilkan dashboard admin/user
+    const userRole = 'admin'; // Ganti dengan logika untuk mendapatkan peran pengguna
+    if (userRole === 'admin') {
+        $('#adminContactTable').show(); // Pastikan dashboard tampil sebelum inisialisasi DataTables
+        loadBookingData('#adminBookingTable', 'admin');
+    } else if (userRole === 'user') {
+        $('#userDashboard').show(); // Pastikan dashboard tampil sebelum inisialisasi DataTables
+        loadBookingData('#userBookingTable', 'user');
+    }
+});
+
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const userDashboard = document.getElementById('userDashboard');
+    const adminDashboard = document.getElementById('adminDashboard');
+    const contactAdminForm = document.getElementById('contactAdminForm');
+    const loginLink = document.getElementById('loginLink');
+    const registerLink = document.getElementById('registerLink');
+    const contactLink = document.getElementById('contactLink');
+    const logoutLink = document.getElementById('logoutLink');
+
+    loginLink.addEventListener('click', function() {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        userDashboard.style.display = 'none';
+        adminDashboard.style.display = 'none';
+        contactAdminForm.style.display = 'none';
+    });
+
+    registerLink.addEventListener('click', function() {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        userDashboard.style.display = 'none';
+        adminDashboard.style.display = 'none';
+        contactAdminForm.style.display = 'none';
+    });
+
+    contactLink.addEventListener('click', function() {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'none';
+        userDashboard.style.display = 'none';
+        adminDashboard.style.display = 'none';
+        contactAdminForm.style.display = 'block';
+    });
+
+    document.getElementById('login').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        fetch('login.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `username=${username}&password=${password}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loginForm.style.display = 'none';
+                if (data.role === 'admin') {
+                    adminDashboard.style.display = 'block';
+                } else {
+                    userDashboard.style.display = 'block';
+                    fetchBookings();
+                }
+                loginLink.style.display = 'none';
+                registerLink.style.display = 'none';
+                contactLink.style.display = 'none';
+                logoutLink.style.display = 'block';
+            } else {
+                alert('Username atau password salah');
+            }
+        });
+    });
+
+    logoutLink.addEventListener('click', function() {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        userDashboard.style.display = 'none';
+        adminDashboard.style.display = 'none';
+        contactAdminForm.style.display = 'none';
+        loginLink.style.display = 'block';
+        registerLink.style.display = 'block';
+        contactLink.style.display = 'block';
+        logoutLink.style.display = 'none';
+    });
+
+       document.addEventListener('DOMContentLoaded', function() {
+    const timeSlots = document.querySelectorAll('.timeSlot');
+    const timeInput = document.getElementById('time');
+    const bookingForm = document.getElementById('bookingForm');
+    const scheduleTable = document.getElementById('scheduleTable');
+    const whatsappLink = document.getElementById('whatsappLink');
+    const adminPhoneNumber = '62xxxxxxxxxx'; // Ganti dengan nomor WhatsApp admin
+
+    // Fungsi untuk menampilkan data pemesanan
+    function fetchBookings() {
+        fetch('get_bookings.php')
+        .then(response => response.json())
+        .then(data => {
+            scheduleTable.innerHTML = '';
+            data.forEach(booking => {
+                const row = scheduleTable.insertRow();
+                row.insertCell(0).innerText = booking.name;
+                row.insertCell(1).innerText = booking.date;
+                row.insertCell(2).innerText = booking.time;
+                row.insertCell(3).innerText = booking.phone;
+                row.insertCell(4).innerText = booking.status;
+            });
+        });
+    }
+
+    // Mengatur event listener pada tombol waktu
+    timeSlots.forEach(button => {
+        button.addEventListener('click', function() {
+            timeSlots.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            timeInput.value = button.getAttribute('data-time');
+        });
+    });
+
+    // Mengatur event listener pada form pemesanan
+    bookingForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(bookingForm);
+        fetch('booking.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                fetchBookings();
+                confirmationMessage.style.display = 'block';
+                const name = formData.get('name');
+                const phone = formData.get('phone');
+                const date = formData.get('date');
+                const time = formData.get('time');
+                const whatsappMessage = `Halo Admin, saya ${name} dengan nomor HP ${phone} telah melakukan pemesanan lapangan pada tanggal ${date} pukul ${time}. Mohon konfirmasi pembayaran.`;
+                whatsappLink.href = `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+            } else {
+                alert('Gagal melakukan pemesanan: ' + (data.error || ''));
+            }
+        });
+
+        bookingForm.reset();
+        timeSlots.forEach(btn => btn.classList.remove('selected'));
+    });
+
+    // Memuat data pemesanan saat halaman dimuat
+    fetchBookings();
+});
+
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const contactName = document.getElementById('contactName').value;
+        const contactPhone = document.getElementById('contactPhone').value;
+        const contactEmail = document.getElementById('contactEmail').value;
+        const contactMessage = document.getElementById('contactMessage').value;
+
+        fetch('contact.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `contactName=${contactName}&contactPhone=${contactPhone}&contactEmail=${contactEmail}&contactMessage=${contactMessage}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Pesan berhasil dikirim');
+            } else {
+                alert('Gagal mengirim pesan');
+            }
+        });
+
+        document.getElementById('contactForm').reset();
+    });
+
+    function fetchContacts() {
+        fetch('get_contacts.php')
+        .then(response => response.json())
+        .then(data => {
+            const adminContactTable = document.getElementById('adminContactTable');
+            adminContactTable.innerHTML = '';
+            data.forEach(contact => {
+                const row = adminContactTable.insertRow();
+                row.insertCell(0).innerText = contact.name;
+                row.insertCell(1).innerText = contact.phone;
+                row.insertCell(2).innerText = contact.email;
+                row.insertCell(3).innerText = contact.message;
+                row.insertCell(4).innerText = contact.created_at;
+            });
+        }); 
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+    const adminContactTable = document.getElementById('adminContactTable');
+    const filterForm = document.getElementById('filterForm');
+    const periodSelect = document.getElementById('period');
+    const monthYearFields = document.getElementById('monthYearFields');
+    const monthSelect = document.getElementById('month');
+    const yearInput = document.getElementById('year');
+
+    // Fungsi untuk mengambil data penyewaan
+    function fetchBookings(period, periodValue) {
+        fetch('get_bookings_by_period.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `period=${period}&period_value=${JSON.stringify(periodValue)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            adminContactTable.innerHTML = '';
+            data.forEach(booking => {
+                const row = adminContactTable.insertRow();
+                row.insertCell(0).innerText = booking.name;
+                row.insertCell(1).innerText = booking.date;
+                row.insertCell(2).innerText = booking.time;
+                row.insertCell(3).innerText = booking.phone;
+                row.insertCell(4).innerText = booking.status;
+
+                const actionCell = row.insertCell(5);
+                if (booking.status !== 'booked') {
+                    const bookButton = document.createElement('button');
+                    bookButton.innerText = 'konfirmasi';
+                    bookButton.addEventListener('click', function() {
+                        updateBookingStatus(booking.id, 'booked');
+                    });
+                    actionCell.appendChild(bookButton);
+                }
+            });
+        });
+    }
+
+    // Fungsi untuk mengupdate status penyewaan
+    function updateBookingStatus(id, status) {
+        fetch('update_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${id}&status=${status}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Status updated successfully');
+                // Refresh data penyewaan
+                const period = periodSelect.value;
+                const periodValue = {
+                    month: parseInt(monthSelect.value),
+                    year: parseInt(yearInput.value)
+                };
+                fetchBookings(period, periodValue);
+            } else {
+                alert('Failed to update status: ' + data.error);
+            }
+        });
+    }
+
+    // Event listener untuk perubahan periode
+    periodSelect.addEventListener('change', function() {
+        if (periodSelect.value === 'monthly') {
+            monthYearFields.style.display = 'block';
+        } else {
+            monthYearFields.style.display = 'none';
+        }
+    });
+
+    // Event listener untuk form filter
+    filterForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const period = periodSelect.value;
+        const periodValue = {
+            month: parseInt(monthSelect.value),
+            year: parseInt(yearInput.value)
+        };
+        fetchBookings(period, periodValue);
+    });
+
+    // Memuat data penyewaan saat halaman dimuat
+    fetchBookings('monthly', { month: new Date().getMonth() + 1, year: new Date().getFullYear() });
+
+    });
+
+</script>
+</body>
+</html>
